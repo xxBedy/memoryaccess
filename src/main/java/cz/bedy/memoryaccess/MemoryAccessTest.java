@@ -20,7 +20,7 @@ import java.util.Random;
 
 @State(Scope.Benchmark)
 public class MemoryAccessTest {
-    private static final int NO_OF_ITEMS = 5_000_000;
+    private static final int NO_OF_ITEMS = 5000000;
     private static final int INT_TYPE_SIZE = 4;
 
     private int[] randomOrder = new int[NO_OF_ITEMS];
@@ -51,7 +51,7 @@ public class MemoryAccessTest {
             primitiveArray[i] = value;
             intBuffer.put(value);
             intDirectBuffer.put(value);
-            unsafe.putInt(directByteBufferAddress + i, value);
+            unsafe.putInt(directByteBufferAddress + (i * INT_TYPE_SIZE), value);
         }
         shuffleArray(randomOrder);
 
@@ -133,7 +133,7 @@ public class MemoryAccessTest {
     public int testLinearAccessToIntDirectBufferUnsafe() {
         int res = 0;
         for (int i : linearOrder) {
-            res += unsafe.getInt(directByteBufferAddress + i);
+            res += unsafe.getInt(directByteBufferAddress + (i * INT_TYPE_SIZE));
         }
         return res;
     }
@@ -142,7 +142,7 @@ public class MemoryAccessTest {
     public int testRandomAccesToIntDirectBufferUnsafe() {
         int res = 0;
         for (int i : randomOrder) {
-            res += unsafe.getInt(directByteBufferAddress + i);
+            res += unsafe.getInt(directByteBufferAddress + (i * INT_TYPE_SIZE));
         }
         return res;
     }
